@@ -1,0 +1,23 @@
+# Connect to the VFD over RS-485
+loadusr -Wn vfd hy_vfd -n vfd -d /dev/ttyUSB0 -t 1 -p none -s 1 -r 9600
+
+# Create a scale component in the fast-running servo thread
+loadrt scale
+addf scale.0 servo-thread
+
+# The VFD runs the spindle 8 times faster than it is commanded, so
+# if you set it to 3,000 RPM it will spin at maximum speed, 24,000 RPM.
+# Set the scale component to divide everything by 8.
+setp scale.0.gain 0.125
+
+# connect the spindle direction pins to the VFD
+net motion.spindle-forward => vfd.spindle-forward
+net motion.spindle-reverse => vfd.spindle-reverse
+
+# connect the spindle on pin to the VFD
+net motion.spindle-on => vfd.spindle-on
+
+# Connect the spindle RPM to the VFD, via a scale component that will
+# divide by 8.
+net spindle-cmd-rpm-abs => scale.0.in
+net motor-speed scale.0.out => vfd.speed-command

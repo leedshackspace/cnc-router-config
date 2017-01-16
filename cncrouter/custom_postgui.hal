@@ -1,0 +1,11 @@
+# Include your customized HAL commands here
+# The commands in this file are run after the AXIS GUI (including PyVCP panel) starts
+
+# Connect the spindle at speed pin from the VFD to the "LED" in gmoccapy,
+# and show the speed that the VFD thinks it is currently running at through
+# gmoccapy's spindle speed bar.
+net spindle-at-speed vfd.spindle-at-speed => gmoccapy.spindle_at_speed_led
+net actual-speed vfd.Rott => gmoccapy.spindle_feedback_bar
+
+# Enable the VFD after EMC has loaded.
+setp vfd.enable 1
