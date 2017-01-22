@@ -11,11 +11,11 @@ addf scale.0 servo-thread
 setp scale.0.gain 0.125
 
 # connect the spindle direction pins to the VFD
-net motion.spindle-forward => vfd.spindle-forward
-net motion.spindle-reverse => vfd.spindle-reverse
+net hy-fwd <= motion.spindle-forward => vfd.spindle-forward
+net hy-rev <= motion.spindle-reverse => vfd.spindle-reverse
 
 # connect the spindle on pin to the VFD
-net motion.spindle-on => vfd.spindle-on
+net hy-on <= motion.spindle-on => vfd.spindle-on
 
 # Connect the spindle RPM to the VFD, via a scale component that will
 # divide by 8.
